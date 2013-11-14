@@ -77,6 +77,9 @@ def authenticate():
     login_user(user)
     return redirect(request.args.get("next", url_for("index")))
 
+@app.route("/game")
+def game():
+    return render_template("game.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
