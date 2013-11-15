@@ -2,7 +2,10 @@
 <body>
 	<h1> WOOOOOOHOOOOOOOO!!!</h1>
 
-	<button id="submit" value="Start Tracking" onclick="startTracking()">START</button>
+	<button id="start" value="Start Tracking" onclick="startTracking()">START</button>
+
+
+	<button id="submit" value="Submit">SUBMIT</button>
 
 	<h3> x </h3>
 	<div class="x"></div>
@@ -19,8 +22,8 @@
 	<h3> total</h3>
 	<div class="total_x_samples"></div>
 
-
-
+	<h3>Insert samples?</h3>
+	<div class ="some_samples"></div>
 
 </body>
 <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script> -->
@@ -37,12 +40,20 @@ var total_y_samples = []
 var total_z_samples = []
 
 function gather_samples () {
-	if (x_samples.length > 10) {
-		total_x_samples.push(x_samples)
-		x_samples = [] 
-	};
+	
+	var timer = setTimeout (function () {
+	total_x_samples.push(x_samples)
+	x_samples = [] 
+	})
 
-}
+}; 
+
+
+function clear_x_samples_and_append (argument) {
+	total_x_samples.push(x_samples)
+	x_samples = [] 
+};
+
 
 var total_x_samples_dom = $('.total_x_samples');
 var x_samples_dom = $('.x_samples');
@@ -51,7 +62,6 @@ var y_dom = $('.y');
 var z_dom = $('.z');
 
 var startTracking = function () {
-
 
 	window.ondevicemotion = function(event) {
 	    var x = event.acceleration.x;
@@ -64,14 +74,14 @@ var startTracking = function () {
 	    x_samples.push(x)
 	    y_samples.push(y)
 	    z_samples.push(z)
+
 	    gather_samples()
 
-	    total_x_samples_dom.html(total_x_samples);
-	    x_samples_dom.html(x_samples)
+	    console.log(total_x_samples);
+	    // console.log(x_samples)
 	}
 
 }
-
 
 
 </script>
@@ -83,13 +93,14 @@ var startTracking = function () {
             });
 
  $("#submit").click(function (e) {
-    console.log("User clicked submit button.");
+    console.log("Things finished");
     e.preventDefault(); //Overrides submit button defaults
-    var input = $("#text_area_sample").val();
-    $.post('/send_package',)
+    $.post('/send_pkg', {data: JSON.stringify(total_x_samples)}, 
+		    function(response){
+            $('.some_samples').html(response);
+    })
 
-    });
-});
+})
 </script>
 
 </html>

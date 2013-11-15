@@ -5,6 +5,7 @@ from flaskext.markdown import Markdown
 import config
 import forms
 import model
+import json
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -77,9 +78,18 @@ def authenticate():
     login_user(user)
     return redirect(request.args.get("next", url_for("index")))
 
+
 @app.route("/game")
 def game():
     return render_template("game.html")
+
+@app.route("/send_pkg", methods=["POST"])
+def send_pkg():
+    print request.form
+    stuff = request.form.get("data")
+    variable = JSON.loads(stuff)
+    return render_template("output.html", stuff = variable)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
