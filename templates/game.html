@@ -1,0 +1,111 @@
+<html>
+<body>
+	<h1> WOOOOOOHOOOOOOOO!!!</h1>
+
+	<h3> x </h3>
+	<div class="x"></div>
+
+	<h3> y </h3>
+	<div class="y"></div>
+
+	<h3> z </h3>
+	<div class="z"></div>
+
+	<h3> sample </h3>
+	<div class="samples"></div>
+
+	<h3> total</h3>
+	<div class="total_samples"></div>
+
+
+                <button id="submit" value="Submit">START</button>
+    </div>
+
+</body>
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script> -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script = "text/javascript">
+
+
+var samples = []
+var  total_samples = []
+
+function gather_samples () {
+	if (samples.length > 10) {
+		total_samples.push(samples)
+		samples = [] 
+	};
+
+}
+
+var total_samples_dom = $('.total_samples');
+var samples_dom = $('.samples');
+var x_dom = $('.x');
+var y_dom = $('.y');
+var z_dom = $('.z');
+
+
+window.ondevicemotion = function(event) {
+    var x = event.acceleration.x;
+    var y = event.acceleration.y;
+    var z = event.acceleration.z;
+    x_dom.html(x);
+    y_dom.html(y);
+    z_dom.html(z);
+
+    samples.push([x,y,z])
+    gather_samples()
+
+    total_samples_dom.html(total_samples);
+    samples_dom.html(samples)
+}
+
+</script>
+
+
+<script>
+ $(document).ready(function() {
+                console.log('ready!');
+            });
+
+ $("#submit").click(function (e) {
+    console.log("User clicked submit button.");
+    e.preventDefault(); //Overrides submit button defaults
+    var input = $("#text_area_sample").val();
+    $.get("/butts", {'words': input}, function (response) {
+        $("#description").html("Based on your input you should read: ");
+        $("#text_area_sample").hide(" ");
+        $("#submit").hide(" ");
+        var obj = $.parseJSON(response);
+        // $("#sample_input").append("\"" + obj[0].post + "\"");
+    });
+});
+</script>
+
+</html>
+
+
+
+
+<!-- Write to a multidimensional array in JS
+
+on event change, figure out if you need to store or send- all synchronous 
+
+samples = []
+if array is < 1000 samples (could use samples.length)
+samples.push([x,y,z])
+ i++;
+
+
+when you call function to send to server, that function will be async
+else
+sendchunktoserver(samples)
+samples = []
+i = 0
+
+$.post("/append?id=" +user.id, { samples: samples })
+ .done(function () { console.log("worked!") })
+ .fail(function (e) { console.log("failed", e) })
+
+
+Send array to the server with a post body in JSON -->
