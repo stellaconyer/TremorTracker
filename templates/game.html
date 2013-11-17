@@ -42,16 +42,7 @@ var total_z_samples = []
 
 
 function gather_samples () {
-
-	var fifty_x_samples = [];
-	var mod50 = x_samples.length - (x_samples.length % 50);
-	var mod = mod50 / 50 || 1;
-	//console.log(mod);
-	for (var i = 0; i <= 50 && i < x_samples.length; i++) {
-		var random_reading = x_samples[i*mod];
-		fifty_x_samples.push(random_reading)
-	};
-	total_x_samples.push(fifty_x_samples)
+	total_x_samples.push(x_samples)
 	x_samples = [];
 };
 
@@ -77,7 +68,7 @@ var startTracking = function () {
 	    z_samples.push(z) 
 	    
 	}
-	window.gatherTimer = setInterval(gather_samples,10000);
+	window.gatherTimer = setInterval(gather_samples,1000);
 }
 
 
