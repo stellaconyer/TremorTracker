@@ -85,10 +85,12 @@ def game():
 
 @app.route("/send_pkg", methods=["POST"])
 def send_pkg():
-    print request.form
-    stuff = request.form.get("data")
-    variable = JSON.loads(stuff)
-    return render_template("output.html", stuff = variable)
+    # print request.form
+    x_data = request.form.get("x")
+    print "Xxxxxxxxxx!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    print x_data
+    x_array_for_fft = json.loads(x_data)
+    return render_template("output.html", x_array = x_array_for_fft)
 
 
 if __name__ == "__main__":
