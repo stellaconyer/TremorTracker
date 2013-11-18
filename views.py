@@ -6,6 +6,7 @@ import config
 import forms
 import model
 import json
+import numpy as np
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -86,11 +87,37 @@ def game():
 @app.route("/send_pkg", methods=["POST"])
 def send_pkg():
     # print request.form
-    x_data = request.form.get("x")
+    x_json = request.form.get("x")
+    x_data = json.loads(x_json)
     print "Xxxxxxxxxx!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-    print x_data
-    x_array_for_fft = json.loads(x_data)
-    return render_template("output.html", x_array = x_array_for_fft)
+
+
+    f_s = 20.0 # hz
+
+    for x in x_data:
+        if len(x) == 20:
+            fft_x = np.fft.fft(x)
+            n = len(fft_x)
+            freq = np.fft.fftfreq(n, 1/f_s)
+            print "freq:", freq
+
+            #Calculate absolute value of fft_x
+            fft_x_abs = np.abs(fft_x)
+
+            #Take first half of FFT array UNSCALED?
+            half_n = np.ceil(n/2.0)
+            freq_half = freq[:half_n]
+            fft_x_half = fft_x_abs[:half_n]
+            print "freq_half", freq_half
+            print "fft_half", fft_x_half
+
+            # Square magnitude of FFT to find PSD
+            PSD_x = np.power(fft_x_half, 2)
+            print "PSD", PSD_x
+
+
+
+    return render_template("output.html", x_array = PSD_x)
 
 
 if __name__ == "__main__":

@@ -1,13 +1,21 @@
 import numpy as np
 
-data = [1,2,3,4]
+f_s = 20.0 # hz
 
-sampling_length = 50
-f_s = #sampling frequency in hz
+for x in x_fft_array:
+	if len(x) == 20:
+		fft_x = np.fft.fft(x)
+		n = len(fft_x)
+		freq = np.fft.fftfreq(n, 1/f_s)
 
- = 1.0/sampling_length  
-n = len(data)
+		#Calculate absolute value of fft_x
+		fft_x_abs = np.abs(fft_x)
 
-freq = np.fft.fftfreq(n, d = sampling_length)
+		#Take first half of FFT array UNSCALED?
+		half_n = np.ceil(n/2.0)
+		freq_half = freq[:half_n]
+		fft_x_half = fft_x_abs[:half_n]
 
+		# Square magnitude of FFT to find PSD
+		PSD_x = np.power(fft_x_half, 2)
 

@@ -1,11 +1,8 @@
-<html>
-<body>
-	<h1> WOOOOOOHOOOOOOOO!!!</h1>
-
-	<button id="start" value="Start Tracking" onclick="startTracking()">START</button>
-
-
-	<button id="submit" value="Submit">SUBMIT</button>
+{% extends "base.html" %}
+{% block body %}
+<br>
+	<button type="button" class="btn btn-primary btn-lg btn-block" id="start" value="Start Tracking" onclick="startTracking()">START</button>
+	<button type="button" class="btn btn-primary btn-lg btn-block" id="submit" value="Submit">SUBMIT</button>
 
 	<h3> x </h3>
 	<div class="x"></div>
@@ -16,16 +13,10 @@
 	<h3> z </h3>
 	<div class="z"></div>
 
-	<h3> sample </h3>
-	<div class="x_samples"></div>
-
-	<h3> total</h3>
-	<div class="total_x_samples"></div>
-
-	<h3>Insert samples?</h3>
+	<h3>Results</h3>
 	<div class ="some_samples"></div>
 
-</body>
+
 <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script> -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script = "text/javascript">
@@ -40,12 +31,10 @@ var total_y_samples = []
 var total_z_samples = []
 
 
-
 function gather_samples () {
 	total_x_samples.push(x_samples)
 	x_samples = [];
 };
-
 
 var total_x_samples_dom = $('.total_x_samples');
 var x_samples_dom = $('.x_samples');
@@ -57,11 +46,11 @@ var startTracking = function () {
 
 	window.ondevicemotion = function(event) {
 	    var x = event.acceleration.x;
-	    //var y = event.acceleration.y;
-	    //var z = event.acceleration.z;
+	    var y = event.acceleration.y;
+	    var z = event.acceleration.z;
 	    x_dom.html(x);
-	    //y_dom.html(y);
-	    //z_dom.html(z);
+	    y_dom.html(y);
+	    z_dom.html(z);
 
 	    x_samples.push(x)
 	    y_samples.push(y)
@@ -94,8 +83,10 @@ var startTracking = function () {
 
 })
 </script>
+{% endblock %}
 
-</html>
+
+
 
 <!-- y: JSON.stringify(y_samples), z:JSON.stringify(z_samples) -->
 
