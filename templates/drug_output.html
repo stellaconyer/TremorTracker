@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class="form" id="select_drug">
+{% for item in drug_data.drugGroup.conceptGroup[1].conceptProperties %}
+<div class="radio">
+  <label>
+    <input type="radio" name="optionsRadios" id="{{item.rxcui}}">
+    {{item.synonym}}
+  </label>
+</div>
+{% endfor %}
+</div>
+
+
+
+
+{% endblock %}

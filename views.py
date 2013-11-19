@@ -132,13 +132,15 @@ def drug_form():
 
 @app.route("/drugs", methods = ["POST"])
 def search_drugs():
-    drug = request.form.get("drug")
+
+    ajax_drug =  request.json("data")
+    print "*************", ajax_drug
     url_param = 'http://rxnav.nlm.nih.gov/REST/drugs?name=' + drug
     print url_param
-    headers = {'accept':'application/json'}
-    r = requests.get('http://rxnav.nlm.nih.gov/REST/drugs?name=cymbalta', headers = headers)
-    print json.dumps(r.json(), sort_keys=True)
-    return ""
+    headers = {'accept':'application/json'} 
+    r = requests.get(url_param, headers = headers)
+    drug_data = r.json()
+    return render_template("drug_output.html", drug_data = drug_data)
 
 if __name__ == "__main__":
     app.run(debug=True)
