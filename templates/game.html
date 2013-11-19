@@ -13,8 +13,7 @@
 	<h3> z </h3>
 	<div class="z"></div>
 
-	<h3>Results</h3>
-	<div class ="some_samples"></div>
+	<div class ="results"></div>
 
 
 <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script> -->
@@ -64,7 +63,6 @@ var startTracking = function () {
 
 </script>
 
-
 <script>
  $(document).ready(function() {
                 console.log('ready!');
@@ -78,7 +76,7 @@ var startTracking = function () {
     window.ondevicemotion = undefined;
     $.post('/send_pkg', {x: JSON.stringify(total_x_samples)}, 
 		    function(response){
-            $('.some_samples').html(response);
+            $('.results').html(response);
     })
 
 })
@@ -86,30 +84,3 @@ var startTracking = function () {
 {% endblock %}
 
 
-
-
-<!-- y: JSON.stringify(y_samples), z:JSON.stringify(z_samples) -->
-
-
-<!-- Write to a multidimensional array in JS
-
-on event change, figure out if you need to store or send- all synchronous 
-
-samples = []
-if array is < 1000 samples (could use samples.length)
-samples.push([x,y,z])
- i++;
-
-
-when you call function to send to server, that function will be async
-else
-sendchunktoserver(samples)
-samples = []
-i = 0
-
-$.post("/append?id=" +user.id, { samples: samples })
- .done(function () { console.log("worked!") })
- .fail(function (e) { console.log("failed", e) })
-
-
-Send array to the server with a post body in JSON -->

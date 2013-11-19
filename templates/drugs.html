@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+
+
+<form class="form-group" action="{{url_for("search_drugs")}}" method='POST'>
+    <input type="text" class="form-control" placeholder="Search Rx" name="drug">
+	<button type="submit" value = "submit" class="btn btn-primary">Search</button>
+  </div>
+
+{% endblock %}

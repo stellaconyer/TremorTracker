@@ -7,6 +7,7 @@ import forms
 import model
 import json
 import numpy as np
+import requests
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -119,6 +120,25 @@ def send_pkg():
 
     return render_template("output.html", x_array = PSD_x)
 
+
+@app.route("/output")
+def chart():
+    return render_template("output.html")
+
+
+@app.route("/drugs")
+def drug_form():
+    return render_template("drugs.html")
+
+@app.route("/drugs", methods = ["POST"])
+def search_drugs():
+    drug = request.form.get("drug")
+    url_param = 'http://rxnav.nlm.nih.gov/REST/drugs?name=' + drug
+    print url_param
+    headers = {'accept':'application/json'}
+    r = requests.get('http://rxnav.nlm.nih.gov/REST/drugs?name=cymbalta', headers = headers)
+    print json.dumps(r.json(), sort_keys=True)
+    return ""
 
 if __name__ == "__main__":
     app.run(debug=True)
