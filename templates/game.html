@@ -74,6 +74,7 @@ var startTracking = function () {
     e.preventDefault(); //Overrides submit button defaults
     clearInterval(window.gatherTimer)
     window.ondevicemotion = undefined;
+    $('#results').html("Loading...")
     $.post('/send_pkg', {x: JSON.stringify(total_x_samples)}, 
 		    function(response){
             $('.results').html(response);

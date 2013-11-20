@@ -94,7 +94,13 @@ def send_pkg():
 
 
     f_s = 20.0 # hz
+    PSD_array = []
 
+    # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    # PSD FOR PLOTTING
+    PSD_list = []
+
+    #Calculate PSD for each second in the input
     for x in x_data:
         if len(x) == 20:
             fft_x = np.fft.fft(x)
@@ -105,25 +111,50 @@ def send_pkg():
             #Calculate absolute value of fft_x
             fft_x_abs = np.abs(fft_x)
 
-            #Take first half of FFT array UNSCALED?
-            half_n = np.ceil(n/2.0)
+            #Take first half of FFT array  + 1 to access 10th element?
+            half_n = np.ceil(n/2.0) + 1
             freq_half = freq[:half_n]
             fft_x_half = fft_x_abs[:half_n]
             print "freq_half", freq_half
             print "fft_half", fft_x_half
-
             # Square magnitude of FFT to find PSD
-            PSD_x = np.power(fft_x_half, 2)
-            print "PSD", PSD_x
+            PSD_x_total = np.power(fft_x_half, 2)
 
+            #Select target frequencies at 1, 3, 6, 10hz
+            target_PSD = {}
+            target_PSD["1hz"] = fft_x_half[1]
+            target_PSD["3hz"] = fft_x_half[3]
+            target_PSD["6hz"] = fft_x_half[6]
+            target_PSD["10hz"] = fft_x_half[10]
 
+            target_PSD_list = []
+            target_PSD_list.append(fft_x_half[1])
+            target_PSD_list.append(fft_x_half[3])
+            target_PSD_list.append(fft_x_half[6])
+            target_PSD_list.append(fft_x_half[10])
 
-    return render_template("output.html", x_array = PSD_x)
+            PSD_list.append(target_PSD_list)
+    
+
+            #Append 1hz, 3hz, 6hz, and 10hz elements to total PSD array
+            PSD_array.append(target_PSD)
+            # print PSD_array
+            json_PSD = json.dumps(PSD_array, separators=(',',':'))
+
+            # print json_PSD
+    print PSD_list
+    return render_template("output.html", json_PSD = json_PSD)
 
 
 @app.route("/output")
 def chart():
     return render_template("output.html")
+
+
+@app.route("/d3_output")
+def d3_chart():
+    return render_template("d3_output.html")
+
 
 
 @app.route("/drugs")
@@ -132,9 +163,7 @@ def drug_form():
 
 @app.route("/drugs", methods = ["POST"])
 def search_drugs():
-
-    ajax_drug =  request.json("data")
-    print "*************", ajax_drug
+    drug = request.form["search_term"]
     url_param = 'http://rxnav.nlm.nih.gov/REST/drugs?name=' + drug
     print url_param
     headers = {'accept':'application/json'} 

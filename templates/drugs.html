@@ -9,8 +9,7 @@
  </div>
 </form>
 
-<div id ="results">
-
+<div id ="results"></div>
 
 
 
@@ -21,12 +20,15 @@
 $("#submit").click(function (e) {
     e.preventDefault(); //Overrides submit button defaults
     var data = {"search_term" : $("#drug").val()}
-    console.log(data)
-    $.post('/drugs', data, 
-		    function(response){
-            $('.results').html(response);
-    })
+    $('#results').html("Loading...")
+    $.post('/drugs', data)
+    	.done(function (response) {
+    		$('#results').html(response);
+    	})
+    	.fail(function () {
+    		$('#results').html("Couldn't load results");
 
+    	})
 })
 
 </script>
