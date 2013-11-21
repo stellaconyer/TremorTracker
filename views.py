@@ -8,6 +8,7 @@ import model
 import json
 import numpy as np
 import requests
+from datetime import datetime
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -128,12 +129,16 @@ def send_pkg():
             target_PSD["10hz"] = fft_x_half[10]
 
             target_PSD_list = []
+            PSD_dict = {}
             target_PSD_list.append(fft_x_half[1])
             target_PSD_list.append(fft_x_half[3])
             target_PSD_list.append(fft_x_half[6])
             target_PSD_list.append(fft_x_half[10])
 
-            PSD_list.append(target_PSD_list)
+            
+            PSD_dict["timestamp"]= str(datetime.now())
+            PSD_dict["data"] = target_PSD_list
+            PSD_list.append(PSD_dict)
     
 
             #Append 1hz, 3hz, 6hz, and 10hz elements to total PSD array
@@ -143,6 +148,7 @@ def send_pkg():
 
             # print json_PSD
     print PSD_list
+    print 
     return render_template("output.html", json_PSD = json_PSD)
 
 
@@ -154,6 +160,11 @@ def chart():
 @app.route("/d3_output")
 def d3_chart():
     return render_template("d3_output.html")
+
+@app.route("/d3_output_2")
+def d3_chart_2():
+    return render_template("d3_output_2.html")
+
 
 
 
