@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, g, session, url_for, flash
+from flask import Flask, render_template, redirect, request, g, session, url_for, flash, jsonify
 from model import User, Post
 from flask.ext.login import LoginManager, login_required, login_user, current_user
 from flaskext.markdown import Markdown
@@ -95,7 +95,6 @@ def send_pkg():
 
 
     f_s = 20.0 # hz
-    PSD_array = []
 
     # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     # PSD FOR PLOTTING
@@ -122,12 +121,6 @@ def send_pkg():
             PSD_x_total = np.power(fft_x_half, 2)
 
             #Select target frequencies at 1, 3, 6, 10hz
-            target_PSD = {}
-            target_PSD["1hz"] = fft_x_half[1]
-            target_PSD["3hz"] = fft_x_half[3]
-            target_PSD["6hz"] = fft_x_half[6]
-            target_PSD["10hz"] = fft_x_half[10]
-
             target_PSD_list = []
             PSD_dict = {}
             target_PSD_list.append(fft_x_half[1])
@@ -139,17 +132,12 @@ def send_pkg():
             PSD_dict["timestamp"]= str(datetime.now())
             PSD_dict["data"] = target_PSD_list
             PSD_list.append(PSD_dict)
+
     
-
-            #Append 1hz, 3hz, 6hz, and 10hz elements to total PSD array
-            PSD_array.append(target_PSD)
-            # print PSD_array
-            json_PSD = json.dumps(PSD_array, separators=(',',':'))
-
-            # print json_PSD
-    print PSD_list
-    print 
-    return render_template("output.html", json_PSD = json_PSD)
+    # json_PSD = jsonify(PSD_list)
+    json_PSD = json.dumps(PSD_list, separators=(',',':'))
+    print json_PSD.__class__
+    return render_template("d3_output.html", json_PSD = json_PSD)
 
 
 @app.route("/output")
@@ -160,13 +148,6 @@ def chart():
 @app.route("/d3_output")
 def d3_chart():
     return render_template("d3_output.html")
-
-@app.route("/d3_output_2")
-def d3_chart_2():
-    return render_template("d3_output_2.html")
-
-
-
 
 @app.route("/drugs")
 def drug_form():
