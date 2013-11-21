@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 {% block body %}
 
-<!-- {{json_PSD}} -->
-
 <div id ="chart"> </div>
 
-<script type="text/javascript"> // var dataset = {{ json_PSD|safe }} </script>
+<script type="text/javascript"> var dataset = {{ json_PSD|safe }} </script>
 <script type="text/javascript" src="/static/js/chart.js">
 </script>
 
