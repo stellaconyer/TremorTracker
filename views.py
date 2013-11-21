@@ -91,13 +91,10 @@ def send_pkg():
     # print request.form
     x_json = request.form.get("x")
     x_data = json.loads(x_json)
-    print "Xxxxxxxxxx!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-
 
     f_s = 20.0 # hz
 
-    # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-    # PSD FOR PLOTTING
+    # PSD FOR D3 HEATMAP
     PSD_list = []
 
     #Calculate PSD for each second in the input
@@ -106,7 +103,7 @@ def send_pkg():
             fft_x = np.fft.fft(x)
             n = len(fft_x)
             freq = np.fft.fftfreq(n, 1/f_s)
-            print "freq:", freq
+            # print "freq:", freq
 
             #Calculate absolute value of fft_x
             fft_x_abs = np.abs(fft_x)
@@ -115,12 +112,12 @@ def send_pkg():
             half_n = np.ceil(n/2.0) + 1
             freq_half = freq[:half_n]
             fft_x_half = fft_x_abs[:half_n]
-            print "freq_half", freq_half
-            print "fft_half", fft_x_half
+            # print "freq_half", freq_half
+            # print "fft_half", fft_x_half
             # Square magnitude of FFT to find PSD
             PSD_x_total = np.power(fft_x_half, 2)
 
-            #Select target frequencies at 1, 3, 6, 10hz
+            #Append timestamp and target frequencies (1, 3, 6, 10hz values) from each second interval to a master list
             target_PSD_list = []
             PSD_dict = {}
             target_PSD_list.append(fft_x_half[1])
@@ -139,10 +136,6 @@ def send_pkg():
     print json_PSD.__class__
     return render_template("d3_output.html", json_PSD = json_PSD)
 
-
-@app.route("/output")
-def chart():
-    return render_template("output.html")
 
 
 @app.route("/d3_output")
