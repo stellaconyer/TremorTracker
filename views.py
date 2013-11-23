@@ -9,9 +9,13 @@ import json
 import numpy as np
 import requests
 from datetime import datetime
+from flask_sockets import Sockets
+from geventwebsocket.handler import WebSocketHandler
+from gevent.pywsgi import WSGIServer
 
 app = Flask(__name__)
 app.config.from_object(config)
+# sockets = Sockets(app)
 
 # Stuff to make login easier
 login_manager = LoginManager()
@@ -27,10 +31,10 @@ def load_user(user_id):
 # Adding markdown capability to the app
 Markdown(app)
 
-@app.route("/")
-def index():
-    posts = Post.query.all()
-    return render_template("index.html", posts=posts)
+# @app.route("/")
+# def index():
+#     posts = Post.query.all()
+#     return render_template("index.html", posts=posts)
 
 @app.route("/post/<int:id>")
 def view_post(id):
@@ -92,6 +96,14 @@ def send_pkg():
     x_json = request.form.get("x")
     x_data = json.loads(x_json)
 
+    y_json = request.form.get("y")
+    y_data = json.loads(y_json)
+    print y_data
+
+    z_json = request.form.get("z")
+    z_data = json.loads(z_json)
+    print z_data
+
     f_s = 20.0 # hz
 
     # PSD FOR D3 HEATMAP
@@ -116,6 +128,30 @@ def send_pkg():
             # print "fft_half", fft_x_half
             # Square magnitude of FFT to find PSD
             PSD_x_total = np.power(fft_x_half, 2)
+
+    for y in y_data:
+        if len(y) == 20:
+            fft_y = np.fft.fft(y)
+            n = len(fft_y)
+            freq = np.fft.fftfreq(n, 1/f_s)
+            # print "freq:", freq
+
+            #Calculate absolute value of fft_y
+            fft_y_abs = np.abs(fft_y)
+
+            #Take first half of FFT array  + 1 to access 10th element?
+            half_n = np.ceil(n/2.0) + 1
+            freq_half = freq[:half_n]
+            fft_y_half = fft_y_abs[:half_n]
+            # print "freq_half", freq_half
+            # print "fft_half", fft_y_half
+            # Square magnitude of FFT to find PSD
+            PSD_y_total = np.power(fft_y_half, 2)
+
+
+
+
+
 
             #Append timestamp and target frequencies (1, 3, 6, 10hz values) from each second interval to a master list
             target_PSD_list = []
@@ -156,5 +192,26 @@ def search_drugs():
     drug_data = r.json()
     return render_template("drug_output.html", drug_data = drug_data)
 
+# @sockets.route('/echo')
+# def echo_socket(ws):
+#     while True:
+#         message = ws.receive()
+#         ws.send(message)
+
+@app.route('/socket')
+def hello():
+    return render_template("websocket.html")
+
+@app.route('/api')
+def api():
+    if request.environ.get('wsgi.websocket'):
+        ws = request.environ['wsgi.websocket']
+        while True:
+            message = ws.wait()
+            ws.send(message)
+    return
+
 if __name__ == "__main__":
     app.run(debug=True)
+    http_server = WSGIServer(('',8000), app, handler_class=WebSocketHandler)
+    http_server.serve_forever()

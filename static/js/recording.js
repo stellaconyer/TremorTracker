@@ -10,10 +10,24 @@ var total_z_samples = [];
 function gather_samples () {
 	total_x_samples.push(x_samples);
 	x_samples = [];
+
+	total_y_samples.push(y_samples);
+	y_samples = [];
+
+	total_z_samples.push(z_samples);
+	z_samples = [];
 }
 
 var total_x_samples_dom = $('.total_x_samples');
 var x_samples_dom = $('.x_samples');
+
+var total_y_samples_dom = $('.total_y_samples');
+var y_samples_dom = $('.y_samples');
+
+var total_z_samples_dom = $('.total_z_samples');
+var z_samples_dom = $('.z_samples');
+
+
 var x_dom = $('.x');
 var y_dom = $('.y');
 var z_dom = $('.z');
@@ -50,7 +64,7 @@ var startTracking = function () {
 	clearInterval(window.gatherTimer);
 	window.ondevicemotion = undefined;
 	$('.results').html("Loading...");
-	$.post('/send_pkg', {x: JSON.stringify(total_x_samples)},
+	$.post('/send_pkg', {x: JSON.stringify(total_x_samples), y: JSON.stringify(total_y_samples), z: JSON.stringify(total_z_samples)},
 			function(response){
 			$('.results').html(response);
 	});
