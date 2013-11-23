@@ -15,7 +15,7 @@ from gevent.pywsgi import WSGIServer
 
 app = Flask(__name__)
 app.config.from_object(config)
-# sockets = Sockets(app)
+sockets = Sockets(app)
 
 # Stuff to make login easier
 login_manager = LoginManager()
@@ -192,26 +192,26 @@ def search_drugs():
     drug_data = r.json()
     return render_template("drug_output.html", drug_data = drug_data)
 
-# @sockets.route('/echo')
-# def echo_socket(ws):
-#     while True:
-#         message = ws.receive()
-#         ws.send(message)
+@sockets.route('/echo')
+def echo_socket(ws):
+    while True:
+        message = ws.receive()
+        ws.send(message)
 
 @app.route('/socket')
 def hello():
     return render_template("websocket.html")
 
-@app.route('/api')
-def api():
-    if request.environ.get('wsgi.websocket'):
-        ws = request.environ['wsgi.websocket']
-        while True:
-            message = ws.wait()
-            ws.send(message)
-    return
+# @app.route('/api')
+# def api():
+#     if request.environ.get('wsgi.websocket'):
+#         ws = request.environ['wsgi.websocket']
+#         while True:
+#             message = ws.wait()
+#             ws.send(message)
+#     return
 
 if __name__ == "__main__":
     app.run(debug=True)
-    http_server = WSGIServer(('',8000), app, handler_class=WebSocketHandler)
-    http_server.serve_forever()
+    # http_server = WSGIServer(('',8000), app, handler_class=WebSocketHandler)
+    # http_server.serve_forever()
