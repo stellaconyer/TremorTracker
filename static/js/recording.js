@@ -2,31 +2,23 @@ var x_samples = [];
 var y_samples = [];
 var z_samples = [];
 
-var total_x_samples = [];
-var total_y_samples = [];
-var total_z_samples = [];
+var totalSamples = {};
 
 
 function gather_samples () {
-	total_x_samples.push(x_samples);
+	var timestamp = Date.now();
+	key = String(timestamp);
+
+	totalSamples[key] = ({
+        "x" : x_samples,
+        "y" : y_samples,
+        "z" : z_samples
+    });
+
 	x_samples = [];
-
-	total_y_samples.push(y_samples);
 	y_samples = [];
-
-	total_z_samples.push(z_samples);
 	z_samples = [];
 }
-
-var total_x_samples_dom = $('.total_x_samples');
-var x_samples_dom = $('.x_samples');
-
-var total_y_samples_dom = $('.total_y_samples');
-var y_samples_dom = $('.y_samples');
-
-var total_z_samples_dom = $('.total_z_samples');
-var z_samples_dom = $('.z_samples');
-
 
 var x_dom = $('.x');
 var y_dom = $('.y');
@@ -50,24 +42,20 @@ var startTracking = function () {
 
 	window.gatherTimer = setInterval(gather_samples,1000);
 };
-
-
- 
+   
  $(document).ready(function() {
 				console.log('ready!');
 			});
 
  $("#submit").click(function (e) {
 	console.log("Things finished");
-	console.log(total_x_samples);
 	e.preventDefault(); //Overrides submit button defaults
 	clearInterval(window.gatherTimer);
 	window.ondevicemotion = undefined;
 	$('.results').html("Loading...");
-	$.post('/send_pkg', {x: JSON.stringify(total_x_samples), y: JSON.stringify(total_y_samples), z: JSON.stringify(total_z_samples)},
-			function(response){
-			$('.results').html(response);
-	});
+	$.post('/send_pkg', {samples: JSON.stringify(totalSamples)},
+                        function(response){
+                        $('.results').html(response);
+        });
 
 });
-
