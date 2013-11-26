@@ -1,4 +1,5 @@
 import numpy as np
+from datetime import date
 
 def combined_fft(samples): 
 
@@ -65,28 +66,27 @@ def combined_fft(samples):
 		PSD_total_6hz = fft_x_half[6] + fft_y_half[6] + fft_z_half[6]
 		PSD_total_10hz = fft_x_half[10] + fft_y_half[10] + fft_z_half[10]
 
-		print "*****************************"
 
-		print "1", fft_x_half[1], fft_y_half[1], fft_z_half[1]
-		print "3", fft_x_half[3], fft_y_half[3], fft_z_half[3]
-		print "6", fft_x_half[6], fft_y_half[6], fft_z_half[6]
-		print "10", fft_x_half[10], fft_y_half[10], fft_z_half[10]
+		# print "1", fft_x_half[1], fft_y_half[1], fft_z_half[1]
+		# print "3", fft_x_half[3], fft_y_half[3], fft_z_half[3]
+		# print "6", fft_x_half[6], fft_y_half[6], fft_z_half[6]
+		# print "10", fft_x_half[10], fft_y_half[10], fft_z_half[10]
 
-		print PSD_total_1hz 
-		print PSD_total_3hz
-		print PSD_total_6hz 
-		print PSD_total_10hz
-
+		# print PSD_total_1hz 
+		# print PSD_total_3hz
+		# print PSD_total_6hz 
+		# print PSD_total_10hz
 
 	#Create dictionary of timestamp and total PSDs for each one second interval
 		PSD_one_sec_sample_dict = {}
 
-		PSD_one_sec_sample_dict["timestamp"]= timestamp
+		PSD_one_sec_sample_dict["timestamp"]= timestamp 
+		# 
 		PSD_one_sec_sample_dict["data"] = [PSD_total_1hz, PSD_total_3hz, PSD_total_6hz, PSD_total_10hz]
 
 		#Append dictionary to master list of samples for charting
 		all_recorded_samples.append(PSD_one_sec_sample_dict)
 
-	print all_recorded_samples
+	# print all_recorded_samples
 
 	return all_recorded_samples

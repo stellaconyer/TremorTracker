@@ -1,4 +1,9 @@
 // SVG width and height
+dataset = 1;
+var margin = {top: 30, right: 20, bottom: 30, left: 50},
+    w = 1000 - margin.left - margin.right,
+    h = 500 - margin.top - margin.bottom;
+
 
     var w = 1000;
     var h = 500;

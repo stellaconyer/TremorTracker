@@ -37,32 +37,6 @@ Markdown(app)
 #     posts = Post.query.all()
 #     return render_template("index.html", posts=posts)
 
-@app.route("/post/<int:id>")
-def view_post(id):
-    post = Post.query.get(id)
-    return render_template("post.html", post=post)
-
-@app.route("/post/new")
-@login_required
-def new_post():
-    return render_template("new_post.html")
-
-@app.route("/post/new", methods=["POST"])
-@login_required
-def create_post():
-    form = forms.NewPostForm(request.form)
-    if not form.validate():
-        flash("Error, all fields are required")
-        return render_template("new_post.html")
-
-    post = Post(title=form.title.data, body=form.body.data)
-    current_user.posts.append(post) 
-    
-    model.session.commit()
-    model.session.refresh(post)
-
-    return redirect(url_for("view_post", id=post.id))
-
 @app.route("/login")
 def login():
     return render_template("login.html")
@@ -113,6 +87,11 @@ def send_pkg():
 def d3_chart():
     return render_template("d3_output.html")
 
+
+@app.route("/d3_output_2")
+def d3_chart_2():
+    return render_template("d3_output_2.html")
+
 @app.route("/drugs")
 def drug_form():
     return render_template("drugs.html")
@@ -127,11 +106,27 @@ def search_drugs():
     drug_data = r.json()
     return render_template("drug_output.html", drug_data = drug_data)
 
+@app.route("/live_chart")
+def live_chart():
+    return render_template("live_chart.html")
+
 @sockets.route('/echo')
 def echo_socket(ws):
     while True:
+        data = ws.receive()
+        print "HEY GUYS!!!!!!!!!!!!!!!!!!!!!!", data
+        samples_data = json.loads(data)
+        PSD_list = fft.combined_fft(samples_data)
+        json_PSD = json.dumps(PSD_list, separators=(',',':'))
+        ws.send(json_PSD)
+
+@sockets.route('/echo2')
+def echo_socket2(ws):
+    while True:
         message = ws.wait()
         ws.send(message)
+    return
+
 
 @app.route('/socket')
 def hello():

@@ -15,6 +15,8 @@ function gather_samples () {
         "z" : z_samples
     });
 
+    console.log(totalSamples[key]);
+
 	x_samples = [];
 	y_samples = [];
 	z_samples = [];
@@ -37,10 +39,11 @@ var startTracking = function () {
 		x_samples.push(x);
 		y_samples.push(y);
 		z_samples.push(z);
-		
-	};
 
-	window.gatherTimer = setInterval(gather_samples,1000);
+		if (x_samples.length == 20) {
+		gather_samples();
+		}
+	};
 };
    
  $(document).ready(function() {
@@ -51,11 +54,7 @@ var startTracking = function () {
 	console.log("Things finished");
 	e.preventDefault(); //Overrides submit button defaults
 	clearInterval(window.gatherTimer);
+	console.log(totalSamples);
 	window.ondevicemotion = undefined;
-	$('.results').html("Loading...");
-	$.post('/send_pkg', {samples: JSON.stringify(totalSamples)},
-                        function(response){
-                        $('.results').html(response);
-        });
-
+	sendData(JSON.stringify(totalSamples));
 });
