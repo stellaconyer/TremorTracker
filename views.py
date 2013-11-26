@@ -1,3 +1,7 @@
+### Launch server using gunicorn gunicorn, bind to all addresses
+### -k flask_sockets.worker --bind 0.0.0.0:8000 views:app
+
+
 from flask import Flask, render_template, redirect, request, g, session, url_for, flash, jsonify
 from model import User, Post
 from flask.ext.login import LoginManager, login_required, login_user, current_user
@@ -119,18 +123,6 @@ def echo_socket(ws):
         PSD_list = fft.combined_fft(samples_data)
         json_PSD = json.dumps(PSD_list, separators=(',',':'))
         ws.send(json_PSD)
-
-@sockets.route('/echo2')
-def echo_socket2(ws):
-    while True:
-        message = ws.wait()
-        ws.send(message)
-    return
-
-
-@app.route('/socket')
-def hello():
-    return render_template("websocket.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
