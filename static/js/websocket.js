@@ -2,10 +2,12 @@ var inbox = new ReconnectingWebSocket("ws://"+ location.host + "/receive");
 var outbox = new ReconnectingWebSocket("ws://"+ location.host + "/submit");
 
 inbox.onmessage = function(message) {
-  console.log("YOU THERE???");
-  console.log(message);
+  // console.log("YOU THERE???");
   var data = JSON.parse(message.data);
-  console.log(data);
+  // console.log(data);
+  tick(data)
+
+  ;
 };
 
 inbox.onclose = function(){

@@ -6,11 +6,11 @@ var n = 100,
   data = [];
  
 var margin = {top: 20, right: 20, bottom: 20, left: 40},
-    width = 300 - margin.left - margin.right,
-    height = 200 - margin.top - margin.bottom;
+    width = 500 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
  
 var x = d3.scale.linear()
-    .domain([1, 10])
+    .domain([1, 50])
     .range([0, width]);
  
 var y = d3.scale.linear()
@@ -55,14 +55,16 @@ var path = svg.append("g")
 
   //draw y,z path
  
-function tick() {
+
+
+function tick(x_coord) {
  
 //call these for each x,y,z
 
   // push a new data point onto the back
-  data.push.apply(data, dataToDraw);
-
-  // console.log(data);
+  data.push(x_coord);
+  console.log("tick");
+  console.log(data);
  
   // redraw the line, and slide it to the left
   path
@@ -75,10 +77,9 @@ function tick() {
       // .each("end", tick);
  
   // pop the old data point off the front
-  if (data.length > 20) {
-    data.splice(0,dataToDraw.length);}
 
-  dataToDraw = [];
+    if (data.length > 50) {
+        data.shift();}
  
 }
 

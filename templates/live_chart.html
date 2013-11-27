@@ -22,8 +22,8 @@ svg {
 </style>
 <div id ="chart"> </div>
 
-<script type="text/javascript"> var dataset = {{ json_PSD|safe }} </script>
-<script type="text/javascript" src="/static/js/live_chart.js">
-</script>
+<script type="text/javascript" src="/static/js/live_chart.js"></script>
+<script type="text/javascript" src="static/js/reconnecting-websocket.min.js"></script>
+<script type="text/javascript" src="/static/js/websocket.js"></script>
 
 {% endblock %}

@@ -27,8 +27,6 @@ function gather_samples () {
 // var z_dom = $('.z');
 
 
-window.dataToDraw = [];
-var frameReq;
 
 var startTracking = function () {
 
@@ -44,14 +42,11 @@ var startTracking = function () {
 		y_samples.push(y);
 		z_samples.push(z);
 
-		// sendData(JSON.stringify(x))
+		outbox.send(JSON.stringify(x));
 
 		if (x_samples.length == 20) {
 		gather_samples();
 
-		dataToDraw.push(x);
-		if (frameReq) {cancelAnimationFrame(frameReq);}
-		frameReq = requestAnimationFrame(tick);
 
 
 		}

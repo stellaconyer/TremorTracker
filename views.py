@@ -98,9 +98,6 @@ chats.start()
 
 
 
-@app.route('/')
-def hello():
-    return render_template('game.html')
 
     
 @app.route("/login")
@@ -176,6 +173,11 @@ def search_drugs():
 def live_chart():
     return render_template("live_chart.html")
 
+@app.route('/')
+def hello():
+    return render_template('game.html')
+
+
 
 # @sockets.route('/echo')
 # def echo_socket(ws):
@@ -195,9 +197,15 @@ def inbox(ws):
         # Sleep to prevent *contstant* context-switches.
         gevent.sleep(0.1)
         message = ws.receive()
-        convert_message = json.loads(message)
-        # message = json.dumps(convert_message, separators=(',',':'))
         if message:
+            convert_message = json.loads(message)
+        # message = json.dumps(convert_message, separators=(',',':'))
+            # print "!!!!!!!!!!!!!!!!"
+            # if convert_message.get("samples"):
+            #     # app.logger.info(u'Inserting message: {}'.format(convert_message))
+            #     # redis.publish(REDIS_CHAN, message)
+            #     print "Samples"
+            # else:
             app.logger.info(u'Inserting message: {}'.format(convert_message))
             redis.publish(REDIS_CHAN, message)
 
