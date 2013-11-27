@@ -68,5 +68,5 @@ var startTracking = function () {
 	clearInterval(window.gatherTimer);
 	console.log(totalSamples);
 	window.ondevicemotion = undefined;
-	sendData(JSON.stringify(totalSamples));
+	outbox.send(JSON.stringify({"samples": totalSamples}));
 });

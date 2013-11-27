@@ -3,3 +3,8 @@ env/
 .*.swp
 *.db
 config.py
+
+redis-2.8.1.tar.gz
+redis-2.8.1/
+
+log.out

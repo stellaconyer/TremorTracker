@@ -23,21 +23,23 @@ svg {
 </style>
 
 <br>
-	<button type="button" class="btn btn-primary btn-lg btn-block" id="start" value="Start Tracking" onclick="startTracking()">START</button>
-	<button type="button" class="btn btn-primary btn-lg btn-block" id="submit" value="Submit">SUBMIT</button>
+  <button type="button" class="btn btn-primary btn-lg btn-block" id="start" value="Start Tracking" onclick="startTracking()">START</button>
+  <button type="button" class="btn btn-primary btn-lg btn-block" id="submit" value="Submit">SUBMIT</button>
 
-	<h3> x </h3>
-	<div class= "x"></div>
+  <h3> x </h3>
+  <div class= "x"></div>
 
-	<h3> y </h3>
-	<div class= "y"></div>
+  <h3> y </h3>
+  <div class= "y"></div>
 
-	<h3> z </h3>
-	<div class= "z"></div>
+  <h3> z </h3>
+  <div class= "z"></div>
 
-	<div class = "results"></div>
+  <div class = "results"></div>
 
 <div id ="chart"> </div>
+<script type="text/javascript" src="static/js/reconnecting-websocket.min.js"></script>
+<script type= "text/javascript" src="/static/js/websocket.js"></script>
 
 <script type="text/javascript"> </script>
 <script type= "text/javascript" src="/static/js/recording.js"></script>
@@ -46,4 +48,3 @@ svg {
 
 
 {% endblock %}
-

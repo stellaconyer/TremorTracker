@@ -1,6 +1,7 @@
 Flask==0.10.1
 Flask-Login==0.2.7
 Flask-Markdown==0.3
+Flask-Sockets==0.1
 Flask-WTF==0.9.3
 Jinja2==2.7.1
 Markdown==2.3.1
@@ -8,6 +9,9 @@ MarkupSafe==0.18
 SQLAlchemy==0.8.3
 WTForms==1.0.5
 Werkzeug==0.9.4
+gevent==0.13.8
+gevent-websocket==0.3.6
+greenlet==0.4.1
 gunicorn==18.0
 itsdangerous==0.23
 numpy==1.8.0
@@ -16,3 +20,6 @@ py-bcrypt==0.4
 pycparser==2.10
 requests==2.0.1
 wsgiref==0.1.2
+distribute==0.6.34
+redis==2.8.0
+
