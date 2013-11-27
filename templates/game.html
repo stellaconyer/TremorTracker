@@ -1,5 +1,27 @@
+
 {% extends "base.html" %}
 {% block body %}
+<style>
+ 
+svg {
+  font: 10px sans-serif;
+}
+ 
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+ 
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+ 
+</style>
+
 <br>
 	<button type="button" class="btn btn-primary btn-lg btn-block" id="start" value="Start Tracking" onclick="startTracking()">START</button>
 	<button type="button" class="btn btn-primary btn-lg btn-block" id="submit" value="Submit">SUBMIT</button>
@@ -14,12 +36,14 @@
 	<div class= "z"></div>
 
 	<div class = "results"></div>
-	
-<script type="text/javascript" src="/static/js/websocket.js">
+
+<div id ="chart"> </div>
+
+<script type="text/javascript"> </script>
+<script type= "text/javascript" src="/static/js/recording.js"></script>
+<script type="text/javascript" src="/static/js/live_chart.js">
 </script>
-<script = "text/javascript" src="/static/js/recording.js"></script>
 
 
 {% endblock %}
-
 
