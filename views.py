@@ -174,8 +174,8 @@ def live_chart():
     return render_template("live_chart.html")
 
 @app.route('/')
-def hello():
-    return render_template('game.html')
+def record():
+    return render_template('recording.html')
 
 
 

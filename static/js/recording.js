@@ -22,9 +22,9 @@ function gather_samples () {
 	z_samples = [];
 }
 
-// var x_dom = $('.x');
-// var y_dom = $('.y');
-// var z_dom = $('.z');
+var x_dom = $('.x');
+var y_dom = $('.y');
+var z_dom = $('.z');
 
 
 
@@ -34,9 +34,9 @@ var startTracking = function () {
 		var x = event.acceleration.x;
 		var y = event.acceleration.y;
 		var z = event.acceleration.z;
-		// x_dom.html(x);
-		// y_dom.html(y);
-		// z_dom.html(z);
+		x_dom.html(x);
+		y_dom.html(y);
+		z_dom.html(z);
 
 		x_samples.push(x);
 		y_samples.push(y);
@@ -61,7 +61,11 @@ var startTracking = function () {
 	console.log("Things finished");
 	e.preventDefault(); //Overrides submit button defaults
 	clearInterval(window.gatherTimer);
-	console.log(totalSamples);
 	window.ondevicemotion = undefined;
-	outbox.send(JSON.stringify({"samples": totalSamples}));
+	$('.results').html("Loading...");
+	$.post('/send_pkg', {samples: JSON.stringify(totalSamples)},
+                        function(response){
+                        $('.results').html(response);
+        });
+
 });

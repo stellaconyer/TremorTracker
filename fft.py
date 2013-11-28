@@ -14,13 +14,10 @@ def combined_fft(samples):
 		n = len(fft_x)
 		freq = np.fft.fftfreq(n, 1/f_s)
 
-		#Calculate absolute value of fft_x
-		fft_x_abs = np.abs(fft_x)
-
 		#Take first half of FFT array  + 1 to access 10th element?
 		half_n = np.ceil(n/2.0) + 1
 		freq_half = freq[:half_n]
-		fft_x_half = fft_x_abs[:half_n]
+		fft_x_half = fft_x[:half_n]
 
 		# Square magnitude of FFT to find PSD
 		PSD_x_total = np.power(fft_x_half, 2)
@@ -30,14 +27,10 @@ def combined_fft(samples):
 		n = len(fft_y)
 		freq = np.fft.fftfreq(n, 1/f_s)
 
-
-		#Calculate absolute value of fft_y
-		fft_y_abs = np.abs(fft_y)
-
 		#Take first half of FFT array  + 1 to access 10th element?
 		half_n = np.ceil(n/2.0) + 1
 		freq_half = freq[:half_n]
-		fft_y_half = fft_y_abs[:half_n]
+		fft_y_half = fft_y[:half_n]
 
 		# Square magnitude of FFT to find PSD
 		PSD_y_total = np.power(fft_y_half, 2)
@@ -47,14 +40,10 @@ def combined_fft(samples):
 		n = len(fft_z)
 		freq = np.fft.fftfreq(n, 1/f_s)
 
-
-		#Calculate absolute value of fft_z
-		fft_z_abs = np.abs(fft_z)
-
 		#Take first half of FFT array  + 1 to access 10th element?
 		half_n = np.ceil(n/2.0) + 1
 		freq_half = freq[:half_n]
-		fft_z_half = fft_z_abs[:half_n]
+		fft_z_half = fft_z[:half_n]
 
 		# Square magnitude of FFT to find PSD
 		PSD_z_total = np.power(fft_z_half, 2)

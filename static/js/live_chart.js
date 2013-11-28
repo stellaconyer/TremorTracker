@@ -6,15 +6,15 @@ var n = 100,
   data = [];
  
 var margin = {top: 20, right: 20, bottom: 20, left: 40},
-    width = 500 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    width = 800 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
  
 var x = d3.scale.linear()
     .domain([1, 50])
     .range([0, width]);
  
 var y = d3.scale.linear()
-    .domain([-10, 10])
+    .domain([-15, 15])
     .range([height, 0]);
  
 var line = d3.svg.line()
