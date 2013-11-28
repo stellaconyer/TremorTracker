@@ -1,9 +1,20 @@
 {% extends "base.html" %}
 {% block body %}
 
+<style type="text/css">
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+</style>
+
 <div id ="chart"> </div>
 
-<script type="text/javascript"> var dataset = {{ json_PSD|safe }} </script> 
+<!-- <script type="text/javascript"> var dataset = {{ json_PSD|safe }} </script> -->
 <script type="text/javascript" src="/static/js/chart.js">
 </script>
 
