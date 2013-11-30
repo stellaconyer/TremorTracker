@@ -1,17 +1,25 @@
 {% extends "base.html" %}
 {% block body %}
-
-<style type="text/css">
+<style>
+ 
+svg {
+  font: 10px sans-serif;
+}
+ 
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+ 
 .axis path,
 .axis line {
-    fill: none;
-    stroke: grey;
-    stroke-width: 1;
-    shape-rendering: crispEdges;
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }
-
+ 
 </style>
-
 <div id ="chart"> </div>
 
 <!-- <script type="text/javascript"> var dataset = {{ json_PSD|safe }} </script> -->
