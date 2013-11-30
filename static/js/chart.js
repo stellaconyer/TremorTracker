@@ -128,7 +128,8 @@ var margin = {top: 30, right: 20, bottom: 30, left: 20},
     .append("text")
     .attr("font-family", "sans-serif")
     .attr("font-size", "12px")
-    .text(function (d) {console.log(d); return d;});
+    .text(function (d) {console.log(d); return d;})
+    .attr("transform", function (d, i) {return translate(20, i*20+15+20); });
 
 
 
