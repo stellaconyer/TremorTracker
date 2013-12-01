@@ -9,7 +9,8 @@ var totalSamples = {};
 function gather_samples () {
 	var timestamp = Date.now();
 	key = String(timestamp);
-
+	outbox.send(JSON.stringify(x_samples));
+	
 	totalSamples[key] = ({
         "x" : x_samples,
         "y" : y_samples,
@@ -42,8 +43,6 @@ var startTracking = function () {
 		y_samples.push(y);
 		z_samples.push(z);
 
-		outbox.send(JSON.stringify(x));
-
 		if (x_samples.length == 20) {
 		gather_samples();
 
@@ -63,6 +62,7 @@ var startTracking = function () {
 	clearInterval(window.gatherTimer);
 	window.ondevicemotion = undefined;
 	$('.results').html("Loading...");
+	console.log({samples: JSON.stringify(totalSamples)});
 	$.post('/send_pkg', {samples: JSON.stringify(totalSamples)},
                         function(response){
                         $('.results').html(response);

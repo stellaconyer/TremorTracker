@@ -1,5 +1,5 @@
 
-var dataset = [{'timestamp': '1385407616347', 'data': [2.4728413708669374, 1.0213275879824053, 0.6079034848067788, 0.77700792781258421]}, {'timestamp': '1385407617347', 'data': [0.5159543321896326, 0.30089637877501274, 0.29576087039073845, 0.17047443811929824]}, {'timestamp': '1385407615180', 'data': [0.22355068543427009, 0.1828661683728921, 0.27317129983999899, 0.25205675288116147]}, {'timestamp': '1385407613180', 'data': [0.27430178945792527, 0.17270123904337203, 0.16406304991091852, 0.18666311418691917]}, {'timestamp': '1385407614180', 'data': [0.24340115857097588, 0.13899838286602154, 0.17379015269958525, 0.16380843391672484]}];
+// var dataset = [{'timestamp': '1385407616347', 'data': [2.4728413708669374, 1.0213275879824053, 0.6079034848067788, 0.77700792781258421]}, {'timestamp': '1385407617347', 'data': [0.5159543321896326, 0.30089637877501274, 0.29576087039073845, 0.17047443811929824]}, {'timestamp': '1385407615180', 'data': [0.22355068543427009, 0.1828661683728921, 0.27317129983999899, 0.25205675288116147]}, {'timestamp': '1385407613180', 'data': [0.27430178945792527, 0.17270123904337203, 0.16406304991091852, 0.18666311418691917]}, {'timestamp': '1385407614180', 'data': [0.24340115857097588, 0.13899838286602154, 0.17379015269958525, 0.16380843391672484]}];
 
 
 
@@ -104,21 +104,7 @@ var margin = {top: 30, right: 20, bottom: 30, left: 20},
     .attr("transform", function (d, i) {
       return translate(0, d.data.length*20 + 12+20); });
 
-
-  var chartTitle = ['1385407614180'];
-
-  var chartLabel = chart.selectAll("g")
-    .append("g")
-    .data(chartTitle, function(d) {return d; })
-    .enter()
-    .append("text")
-    .attr("font-family", "sans-serif")
-    .attr("font-size", "12px")
-    .text(function (d,i) {return d; })
-    .attr("transform", function (d, i) {return translate(0, i+15); });
-
   //y labels
-
   var yValues = ["1hz", "3hz", "6hz", "10hz"];
 
   var yLabels = chart.selectAll("g")
@@ -128,10 +114,14 @@ var margin = {top: 30, right: 20, bottom: 30, left: 20},
     .append("text")
     .attr("font-family", "sans-serif")
     .attr("font-size", "12px")
-    .text(function (d) {console.log(d); return d;})
+    .text(function (d) {return d;})
     .attr("transform", function (d, i) {return translate(20, i*20+15+20); });
 
-
+  //chart title
+  var chartTitle = formatDate(convertTimestamp(dataset[0].timestamp));
+  var chart = d3.select("#title")
+    .append("text")
+    .text(chartTitle);
 
  // helper function for translating
     function translate (x, y) {

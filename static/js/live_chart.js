@@ -62,24 +62,24 @@ function tick(x_coord) {
 //call these for each x,y,z
 
   // push a new data point onto the back
-  data.push(x_coord);
-  console.log("tick");
-  console.log(data);
- 
-  // redraw the line, and slide it to the left
-  path
-      .attr("d", line)
-      .attr("transform", null)
-    .transition()
-      .duration(500)
-      .ease("linear")
-      .attr("transform", "translate(" + x(0) + ",0)");
-      // .each("end", tick);
- 
-  // pop the old data point off the front
+  for (var i = 0; i < x_coord.length; i++) {
+    data.push(x_coord[i]);
+    console.log("tick");
+    console.log(data);
+   
+    // redraw the line, and slide it to the left
+    path
+        .attr("d", line)
+        .attr("transform", null)
+      .transition()
+        // .duration(5)
+        .ease("linear")
+        .attr("transform", "translate(" + x(0) + ",0)");
+        // .each("end", tick);
+   
+    // pop the old data point off the front
 
-    if (data.length > 50) {
-        data.shift();}
- 
-}
-
+      if (data.length > 50) {
+          data.shift();}
+      }
+  }

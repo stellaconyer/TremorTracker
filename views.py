@@ -12,7 +12,7 @@ import model
 import json
 import numpy as np
 import requests
-from datetime import datetime
+import time
 from flask_sockets import Sockets
 from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
@@ -28,10 +28,13 @@ app.debug = 'DEBUG' in os.environ
 sockets = Sockets(app)
 
 # REDIS_URL = os.environ['REDISCLOUD_URL']
-REDIS_CHAN = 'chat'
+REDIS_CHAN = 'chart'
+
+
 
 sockets = Sockets(app)
-redis = redis.StrictRedis(host="localhost", port=6379, db=0)
+redis_ps_server = redis.StrictRedis(host="localhost", port=6379, db=0)
+heatmap_server = redis.StrictRedis(host="localhost", port=6379, db=1)
 
 LOG_FILENAME = 'log.out'
 logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO,)
@@ -51,17 +54,11 @@ def load_user(user_id):
 # Adding markdown capability to the app
 Markdown(app)
 
-# @app.route("/")
-# def index():
-#     posts = Post.query.all()
-#     return render_template("index.html", posts=posts)
-
-class ChatBackend(object):
-    """Interface for registering and updating WebSocket clients."""
-
+# Interface for registering and updating WebSocket clients. Modified from Heroku's sample chat server.
+class LiveChartBackend(object):
     def __init__(self):
         self.clients = list()
-        self.pubsub = redis.pubsub()
+        self.pubsub = redis_ps_server.pubsub()
         self.pubsub.subscribe(REDIS_CHAN)
 
     def __iter_data(self):
@@ -93,13 +90,11 @@ class ChatBackend(object):
         """Maintains Redis subscription in the background."""
         gevent.spawn(self.run)
 
-chats = ChatBackend()
-chats.start()
+liveChart = LiveChartBackend()
+liveChart.start()
 
 
 
-
-    
 @app.route("/login")
 def login():
     return render_template("login.html")
@@ -133,15 +128,15 @@ def send_pkg():
 
     # print request.form
     samples_json = request.form.get("samples")
-    print samples_json
     samples_data = json.loads(samples_json)
-    print samples_data
 
     PSD_list = fft.combined_fft(samples_data)
-
+    # timestamp = time.time()
     # json_PSD = jsonify(PSD_list)
+    print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     json_PSD = json.dumps(PSD_list, separators=(',',':'))
-    print json_PSD.__class__
+    print json_PSD
+    heatmap_server.append("timestamp", json_PSD)
     return render_template("d3_output.html", json_PSD = json_PSD)
 
 
@@ -203,19 +198,19 @@ def inbox(ws):
             # print "!!!!!!!!!!!!!!!!"
             # if convert_message.get("samples"):
             #     # app.logger.info(u'Inserting message: {}'.format(convert_message))
-            #     # redis.publish(REDIS_CHAN, message)
+            #     # redis_ps_server.publish(REDIS_CHAN, message)
             #     print "Samples"
             # else:
             app.logger.info(u'Inserting message: {}'.format(convert_message))
-            redis.publish(REDIS_CHAN, message)
+            redis_ps_server.publish(REDIS_CHAN, message)
 
 @sockets.route('/receive')
 def outbox(ws):
-    """Sends outgoing chat messages, via `ChatBackend`."""
-    chats.register(ws)
+    """Sends outgoing chat messages, via `LiveChartBackend`."""
+    liveChart.register(ws) 
 
     while ws.socket is not None:
-        # Context switch while `ChatBackend.start` is running in the background.
+        # Context switch while `LiveChartBackend.start` is running in the background.
         gevent.sleep()
 
 
