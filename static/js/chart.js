@@ -1,7 +1,7 @@
 
 // var dataset = [{'timestamp': '1385407616347', 'data': [2.4728413708669374, 1.0213275879824053, 0.6079034848067788, 0.77700792781258421]}, {'timestamp': '1385407617347', 'data': [0.5159543321896326, 0.30089637877501274, 0.29576087039073845, 0.17047443811929824]}, {'timestamp': '1385407615180', 'data': [0.22355068543427009, 0.1828661683728921, 0.27317129983999899, 0.25205675288116147]}, {'timestamp': '1385407613180', 'data': [0.27430178945792527, 0.17270123904337203, 0.16406304991091852, 0.18666311418691917]}, {'timestamp': '1385407614180', 'data': [0.24340115857097588, 0.13899838286602154, 0.17379015269958525, 0.16380843391672484]}];
 
-
+dataset = dataset.sort(function(a,b) { return parseFloat(a.timestamp) - parseFloat(b.timestamp) } );
 
 // SVG width and height
 var margin = {top: 30, right: 20, bottom: 30, left: 20},
@@ -18,10 +18,8 @@ var margin = {top: 30, right: 20, bottom: 30, left: 20},
       return endArray;
     }
 
-    var datasetArray = createArrayFromJSON(dataset);
-
-    var max = d3.max(datasetArray);
-    var min = d3.min(datasetArray);
+    var max = 100;
+    var min = 0;
 
     var colorScale = d3.scale.linear()
       .domain([min, max])
@@ -45,7 +43,7 @@ var margin = {top: 30, right: 20, bottom: 30, left: 20},
       .data(dataset)
       .enter()
       .append("g")
-      .attr("transform", function (d, i) { return translate((i * 60)+60, 0); });
+      .attr("transform", function (d, i) { return translate((i * 60+35), 0); });
 
 
 //Create rows for each value in "data"
@@ -115,13 +113,21 @@ var margin = {top: 30, right: 20, bottom: 30, left: 20},
     .attr("font-family", "sans-serif")
     .attr("font-size", "12px")
     .text(function (d) {return d;})
-    .attr("transform", function (d, i) {return translate(20, i*20+15+20); });
+    .attr("transform", function (d, i) {return translate(0, i*20+15+20); });
 
   //chart title
   var chartTitle = formatDate(convertTimestamp(dataset[0].timestamp));
-  var chart = d3.select("#title")
+  var chartHeader = d3.select("#title")
     .append("text")
+    .attr("font-size", "1px")
     .text(chartTitle);
+
+
+  //current medication
+  var chartMedication = d3.select("#medication")
+    .append("text")
+    .text("Medication: Requip XL 8 MG 24HR Extended Release Tablet");
+
 
  // helper function for translating
     function translate (x, y) {

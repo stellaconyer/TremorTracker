@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block body %}
 <style>
  
@@ -20,7 +21,7 @@ svg {
 }
  
 </style>
-<div id = "title"> </div>
+<div id = "title"> </div> <div id = "medication"></div>
 <div id ="chart"> </div>
 
 <script type="text/javascript"> var dataset = {{ json_PSD|safe }} </script>

@@ -30,15 +30,12 @@ sockets = Sockets(app)
 # REDIS_URL = os.environ['REDISCLOUD_URL']
 REDIS_CHAN = 'chart'
 
-
-
 sockets = Sockets(app)
 redis_ps_server = redis.StrictRedis(host="localhost", port=6379, db=0)
 heatmap_server = redis.StrictRedis(host="localhost", port=6379, db=1)
 
-LOG_FILENAME = 'log.out'
-logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO,)
-
+# LOG_FILENAME = 'log.out'
+# logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO,)
 
 # Stuff to make login easier
 login_manager = LoginManager()
@@ -94,7 +91,6 @@ liveChart = LiveChartBackend()
 liveChart.start()
 
 
-
 @app.route("/login")
 def login():
     return render_template("login.html")
@@ -119,10 +115,6 @@ def authenticate():
     return redirect(request.args.get("next", url_for("index")))
 
 
-@app.route("/game")
-def game():
-    return render_template("game.html")
-
 @app.route("/send_pkg", methods=["POST"])
 def send_pkg():
 
@@ -136,15 +128,15 @@ def send_pkg():
     print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     json_PSD = json.dumps(PSD_list, separators=(',',':'))
     print json_PSD
-    heatmap_server.append("timestamp", json_PSD)
+    heatmap_server.set("timestamp", json_PSD)
     return render_template("d3_output.html", json_PSD = json_PSD)
-
 
 
 @app.route("/d3_output")
 def d3_chart():
-    return render_template("d3_output.html")
-
+    redis_PSD = heatmap_server.get("timestamp")
+    print redis_PSD
+    return render_template("heatmap.html", json_PSD = redis_PSD)
 
 @app.route("/d3_output_2")
 def d3_chart_2():
@@ -173,18 +165,6 @@ def record():
     return render_template('recording.html')
 
 
-
-# @sockets.route('/echo')
-# def echo_socket(ws):
-#     while True:
-#         data = ws.receive()
-#         print "HEY GUYS!!!!!!!!!!!!!!!!!!!!!!", data
-#         samples_data = json.loads(data)
-#         PSD_list = fft.combined_fft(samples_data)
-#         json_PSD = json.dumps(PSD_list, separators=(',',':'))
-#         ws.send(json_PSD)
-
-
 @sockets.route('/submit')
 def inbox(ws):
     """Receives incoming chat messages, inserts them into Redis."""
@@ -194,13 +174,6 @@ def inbox(ws):
         message = ws.receive()
         if message:
             convert_message = json.loads(message)
-        # message = json.dumps(convert_message, separators=(',',':'))
-            # print "!!!!!!!!!!!!!!!!"
-            # if convert_message.get("samples"):
-            #     # app.logger.info(u'Inserting message: {}'.format(convert_message))
-            #     # redis_ps_server.publish(REDIS_CHAN, message)
-            #     print "Samples"
-            # else:
             app.logger.info(u'Inserting message: {}'.format(convert_message))
             redis_ps_server.publish(REDIS_CHAN, message)
 
