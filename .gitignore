@@ -8,3 +8,5 @@ redis-2.8.1.tar.gz
 redis-2.8.1/
 
 log.out
+
+.DS_Store

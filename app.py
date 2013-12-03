@@ -1,24 +1,24 @@
 ### Launch server using gunicorn gunicorn, bind to all addresses
-### gunicorn -k flask_sockets.worker --bind 0.0.0.0:8000 views:app
+### gunicorn -k flask_sockets.worker --bind 0.0.0.0:8000 app:app
 
 
 from flask import Flask, render_template, redirect, request, g, session, url_for, flash, jsonify
-from model import User, Post
+from model import User
 from flask.ext.login import LoginManager, login_required, login_user, current_user
 from flaskext.markdown import Markdown
 import config
 import forms
-import model
+# import model
 import json
-import numpy as np
+# import numpy as np
 import requests
-import time
+# import time
 from flask_sockets import Sockets
-from geventwebsocket.handler import WebSocketHandler
-from gevent.pywsgi import WSGIServer
+# from geventwebsocket.handler import WebSocketHandler
+# from gevent.pywsgi import WSGIServer
 import fft as fft
 import os
-import logging
+# import logging
 import redis
 import gevent
 
@@ -118,16 +118,10 @@ def authenticate():
 @app.route("/send_pkg", methods=["POST"])
 def send_pkg():
 
-    # print request.form
     samples_json = request.form.get("samples")
     samples_data = json.loads(samples_json)
-
     PSD_list = fft.combined_fft(samples_data)
-    # timestamp = time.time()
-    # json_PSD = jsonify(PSD_list)
-    print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     json_PSD = json.dumps(PSD_list, separators=(',',':'))
-    print json_PSD
     heatmap_server.set("timestamp", json_PSD)
     return render_template("d3_output.html", json_PSD = json_PSD)
 

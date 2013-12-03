@@ -22,4 +22,3 @@ requests==2.0.1
 wsgiref==0.1.2
 distribute==0.6.34
 redis==2.8.0
-

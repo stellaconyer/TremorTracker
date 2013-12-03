@@ -13,7 +13,11 @@ Because Parkinson's tremors are typically concentrated in a 3-6hz range of movem
 
 
 ## D3.js Auto-generated heatmap
-A D3-generated heatmap displays the intensity of the movements at 1hz, 3hz, 6hz, and 10hz over the period of the recording.
+A D3-generated heatmap displays the intensity of the movements at 1hz, 3hz, 6hz, and 10hz over the period of the recording. 
+
+
+## Track medication/tremor effects over time
+Provides an interface to search medications using the RXNorm API, an API maintained by the National Institute of Health. Search with an ingredient, brand name, clinical dose form, branded dose form, clinical drug component, or branded drug component and choose the medication and dosage from the results.
   
 
 ####Technologies: Python, Flask, Jinja, Redis, WebSockets, JavaScript, D3.js, NumPy
