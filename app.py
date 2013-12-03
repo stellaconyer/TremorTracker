@@ -75,7 +75,7 @@ def send_recording_data():
     PSD_list = fft.combined_fft(samples_data)
     json_PSD = json.dumps(PSD_list, separators=(',',':'))
     heatmap_server.set("timestamp", json_PSD)
-    return render_template("d3_output.html", json_PSD = json_PSD)
+    return render_template("heatmap.html", json_PSD = json_PSD)
 
 @app.route("/live_chart")
 def live_chart():

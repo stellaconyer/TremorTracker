@@ -1,4 +1,9 @@
 import numpy as np
+import math
+
+def rms(l):
+    list_array = np.array(l)
+    return math.sqrt(np.mean(list_array**2))
 
 def combined_fft(samples): 
 
@@ -58,11 +63,13 @@ def combined_fft(samples):
 		# Square magnitude of FFT to find PSD
 		PSD_z_total = np.power(fft_z_half, 2)
 
-		# Combine PSDs for x, y, and z axes
-		PSD_total_1hz = PSD_x_total[1] + PSD_y_total[1] + PSD_z_total[1]
-		PSD_total_3hz = PSD_x_total[3] + PSD_y_total[3] + PSD_z_total[3]
-		PSD_total_6hz = PSD_x_total[6] + PSD_y_total[6] + PSD_z_total[6]
-		PSD_total_10hz = PSD_x_total[10] + PSD_y_total[10] + PSD_z_total[10]
+		# Combine PSDs for x, y, and z axes using root mean square
+
+		PSD_total_1hz = rms([PSD_x_total[1], PSD_y_total[1], PSD_z_total[1]])
+		PSD_total_3hz = rms([PSD_x_total[3], PSD_y_total[3], PSD_z_total[3]])
+		PSD_total_6hz = rms([PSD_x_total[6], PSD_y_total[6], PSD_z_total[6]])
+		PSD_total_10hz = rms([PSD_x_total[10], PSD_y_total[10], PSD_z_total[10]])
+
 
 	#Create dictionary of timestamp and total PSDs for each one second interval
 		PSD_one_sec_sample_dict = {}
