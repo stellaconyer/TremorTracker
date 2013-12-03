@@ -64,7 +64,7 @@ var startTracking = function () {
 	console.log({samples: JSON.stringify(totalSamples)});
 	$.post('/record', {samples: JSON.stringify(totalSamples)},
                         function(response){
-                        $('.results').html(response);
+                        $('.results').html("Successfully submitted!");
         });
 
 });

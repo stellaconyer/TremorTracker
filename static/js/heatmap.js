@@ -5,7 +5,7 @@ dataset = dataset.sort(function(a,b) { return parseFloat(a.timestamp) - parseFlo
 
 // SVG width and height
 var margin = {top: 30, right: 20, bottom: 30, left: 20},
-    w = 1000 - margin.left - margin.right,
+    w = 800 - margin.left - margin.right,
     h = 500 - margin.top - margin.bottom;
 
 //Create array of data to determine max and min values
@@ -80,6 +80,7 @@ var cellWidth = w / dataset.length;
 
 
 // Create x and y axis labels
+
   //Take in timestamp as string, convert to JS Date object
   var convertTimestamp = function (timestamp) {
     return new Date(parseInt(timestamp, 10));
@@ -89,7 +90,7 @@ var cellWidth = w / dataset.length;
   var formatTime = d3.time.format("%X");
 
   //Format a timestamp to "%a %b %e %H:%M:%S %Y"
-  var formatDate = d3.time.format("%c");
+  var formatDate = d3.time.format("%a %b %e, %Y");
 
   //x labels as H:M:S
   var xLabels = columns.append("g")
@@ -100,7 +101,7 @@ var cellWidth = w / dataset.length;
     .attr("font-family", "sans-serif")
     .attr("font-size", "10px")
     .attr("transform", function (d, i) {
-      return translate(0, d.data.length*20 + 12+20); });
+      return translate(0, d.data.length*20 + 32); });
 
   //y labels
   var yValues = ["1hz", "3hz", "6hz", "10hz"];

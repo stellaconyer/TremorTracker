@@ -1,27 +1,6 @@
 
 {% extends "base.html" %}
 {% block body %}
-<style>
- 
-svg {
-  font: 10px sans-serif;
-}
- 
-.line {
-  fill: none;
-  stroke: #000;
-  stroke-width: 1.5px;
-}
- 
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
- 
-</style>
-
 <br>
   <button type="button" class="btn btn-success btn-lg btn-block" id="start" value="Start Tracking" onclick="startTracking()">  <span class="glyphicon glyphicon-play"></span>  START</button>
   <button type="button" class="btn btn-danger btn-lg btn-block" id="submit" value="Submit"><span class="glyphicon glyphicon-stop"></span> SUBMIT</button>
