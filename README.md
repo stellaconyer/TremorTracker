@@ -16,7 +16,7 @@ Because Parkinson's tremors are typically concentrated in a 3-6hz range of movem
 A D3-generated heatmap displays the intensity of the movements at 1hz, 3hz, 6hz, and 10hz over the period of the recording.
   
 
-####Technologies####: Python, Flask, Jinja, Redis, WebSockets, JavaScript, D3.js, NumPy
+####Technologies: Python, Flask, Jinja, Redis, WebSockets, JavaScript, D3.js, NumPy
   
 
 
