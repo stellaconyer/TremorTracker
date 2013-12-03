@@ -15,6 +15,7 @@ The github repo for the machine learning portion of the project can be found [he
 ## Realtime charting with websockets
 ######(app.py, static/js/websockets.js, & static/js/live_chart.js)
 App.py is the main web framework. The application charts movement in real time using D3, WebSockets, and the PubSub protocol so that data collected on a cellphone can be viewed simultaneously on another web browser.
+
 ![iphone screenshot image](https://raw.github.com/stellacotton/TremorTracker/master/static/img/iphone_recording.png)
 ![live charting image](https://raw.github.com/stellacotton/TremorTracker/master/static/img/live_chart.png)
 
