@@ -5,7 +5,7 @@ dataset = dataset.sort(function(a,b) { return parseFloat(a.timestamp) - parseFlo
 
 // SVG width and height
 var margin = {top: 30, right: 20, bottom: 30, left: 20},
-    w = 500 - margin.left - margin.right,
+    w = 1000 - margin.left - margin.right,
     h = 500 - margin.top - margin.bottom;
 
 //Create array of data to determine max and min values
@@ -37,13 +37,14 @@ var margin = {top: 30, right: 20, bottom: 30, left: 20},
       .attr("height", h + margin.top + margin.bottom);
 
 
-
+var cellWidth = w / dataset.length;
 //Create a column for each entry
     var columns = chart.selectAll("g")
       .data(dataset)
       .enter()
       .append("g")
-      .attr("transform", function (d, i) { return translate((i * 60+35), 0); });
+      .attr("transform", function (d, i) { return translate((i * cellWidth+35), 0); });
+
 
 
 //Create rows for each value in "data"
@@ -56,14 +57,14 @@ var margin = {top: 30, right: 20, bottom: 30, left: 20},
     //Create a rectangle each of the four PSD readings 
     rows
       .append("rect")
-      .attr("width", 58)
+      .attr("width", cellWidth - 1)
       .attr("height", 18)
       .attr("fill", colorScale);
 
     // Overlay "data" value
     rows
       .append("text")
-      .text(function (d, i) { return d.toPrecision(3); })
+      .text(function (d, i) { return d.toPrecision(5); })
       .attr("dx", "20px")
       .attr("dy", "14px")
       .attr("font-family", "sans-serif")
@@ -90,7 +91,6 @@ var margin = {top: 30, right: 20, bottom: 30, left: 20},
   //Format a timestamp to "%a %b %e %H:%M:%S %Y"
   var formatDate = d3.time.format("%c");
 
-
   //x labels as H:M:S
   var xLabels = columns.append("g")
     .append("text")
@@ -98,7 +98,7 @@ var margin = {top: 30, right: 20, bottom: 30, left: 20},
     .attr("width", 58)
     .attr("height", 18)
     .attr("font-family", "sans-serif")
-    .attr("font-size", "12px")
+    .attr("font-size", "10px")
     .attr("transform", function (d, i) {
       return translate(0, d.data.length*20 + 12+20); });
 
@@ -118,14 +118,13 @@ var margin = {top: 30, right: 20, bottom: 30, left: 20},
   //chart title
   var chartTitle = formatDate(convertTimestamp(dataset[0].timestamp));
   var chartHeader = d3.select("#title")
-    .append("text")
-    .attr("font-size", "1px")
+    .append("h3")
     .text(chartTitle);
 
 
   //current medication
   var chartMedication = d3.select("#medication")
-    .append("text")
+    .append("h5")
     .text("Medication: Requip XL 8 MG 24HR Extended Release Tablet");
 
 
