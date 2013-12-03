@@ -1,7 +1,7 @@
 TremorTracker
 =============
 
-TremorTracker is a web-based app that uses a smartphone accelerometer to record and chart tremor movement.
+TremorTracker is a web-based app that uses a smartphone accelerometer to record and chart tremor movement. It was inspired by my machine learning work with a dataset provided by the Michael J. Fox Foundation. The github repo for the machine learning portion of the project can be found [here.](https://github.com/stellacotton/ParkinsonsSVM)
 
 
 ## Realtime charting with websockets
@@ -18,6 +18,7 @@ A D3-generated heatmap displays the intensity of the movements at 1hz, 3hz, 6hz,
 
 ## Track medication/tremor effects over time
 Provides an interface to search medications using the RXNorm API, an API maintained by the National Institute of Health. Search with an ingredient, brand name, clinical dose form, branded dose form, clinical drug component, or branded drug component and choose the medication and dosage from the results.
+
   
 
 ####Technologies: Python, Flask, Jinja, Redis, WebSockets, JavaScript, D3.js, NumPy

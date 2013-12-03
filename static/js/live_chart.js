@@ -5,7 +5,7 @@ var margin = {top: 20, right: 20, bottom: 20, left: 40},
     height = 500 - margin.top - margin.bottom;
  
 var x = d3.scale.linear()
-    .domain([1, 50])
+    .domain([1, 100])
     .range([0, width]);
  
 var y = d3.scale.linear()
@@ -46,20 +46,20 @@ svg.append("g")
     .attr("class", "y axis")
     .call(d3.svg.axis().scale(y).orient("left"));
  
- // path for x recording 
 var path = svg.append("g")
     .attr("clip-path", "url(#clip)")
   .append("path")
-    .datum(data) //modify for y,z
+    .datum(data)
     .attr("class", "line")
     .attr("d", line);
-    //set stroke attribute
 
-  //draw y,z path
- 
 
 function tick() {
-    console.log("tick?");
+    if (buffer.length) {
+        data.push(buffer.shift());
+
+    }
+
     // redraw the line, and slide it to the left
     path
         .attr("d", line)
@@ -68,23 +68,24 @@ function tick() {
         .duration(500)
         .ease("linear")
         .attr("transform", "translate(" + x(0) + ",0)");
-        // .each("end", tick);
 
     // pop the old data point off the front
 
-    if (data.length > 60) {
+    if (data.length > 100) {
           data.shift();
       }
     }
 
 // Websocket calls push() every second when in recording mode, returns 20 samples every second
-
+var buffer = [];
 function push(x_coord) {
 
-//adds each point to the master dataset and runs tick()
-    for (var i = 0; i < x_coord.length; i++) {
-    data.push(x_coord[i]);
+    if (buffer.length) {
+      data.push.apply(data, buffer);
     }
+
+    buffer = x_coord;
+//adds each point to the master dataset and runs tick()
 
     //timers to clear tick() when websocket closes
     clearTimeout(window.countdown);

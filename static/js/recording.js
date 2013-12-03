@@ -28,7 +28,6 @@ var y_dom = $('.y');
 var z_dom = $('.z');
 
 
-
 var startTracking = function () {
 
 	window.ondevicemotion = function(event) {
@@ -51,7 +50,7 @@ var startTracking = function () {
 		}
 	};
 };
-   
+
  $(document).ready(function() {
 				console.log('ready!');
 			});
@@ -63,7 +62,7 @@ var startTracking = function () {
 	window.ondevicemotion = undefined;
 	$('.results').html("Loading...");
 	console.log({samples: JSON.stringify(totalSamples)});
-	$.post('/send_pkg', {samples: JSON.stringify(totalSamples)},
+	$.post('/record', {samples: JSON.stringify(totalSamples)},
                         function(response){
                         $('.results').html(response);
         });
