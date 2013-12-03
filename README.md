@@ -15,8 +15,8 @@ The github repo for the machine learning portion of the project can be found [he
 ## Realtime charting with websockets
 ######(app.py, static/js/websockets.js, & static/js/live_chart.js)
 App.py is the main web framework. The application charts movement in real time using D3, WebSockets, and the PubSub protocol so that data collected on a cellphone can be viewed simultaneously on another web browser.
-(static/img/iphone_recording.png)
-(static/img/live_chart.png)
+![iphone screenshot image](https://raw.github.com/stellacotton/TremorTracker/master/static/img/iphone_recording.png)
+![live charting image](https://raw.github.com/stellacotton/TremorTracker/master/static/img/live_chart.png)
 
 ## Signal processing using the Fourier Transform
 ######(fft.py)
@@ -26,12 +26,12 @@ Because Parkinson's tremors are typically concentrated in a 3-6hz range of movem
 ## D3.js generated heatmap
 ######(static/js/heatmap.js)
 A D3-generated heatmap displays the intensity of the movements at 1hz, 3hz, 6hz, and 10hz over the period of the recording. 
-(static/img/heatmap.png)
+![heatmap image](https://raw.github.com/stellacotton/TremorTracker/master/static/img/heatmap.png)
 
 ## Track medication & tremor effects over time
 ######(templates/drugs.html)
 Provides an interface to search medications using the RXNorm API, an API maintained by the National Institute of Health. Search with an ingredient, brand name, clinical dose form, branded dose form, clinical drug component, or branded drug component and choose the medication and dosage from the results.
-(static/img/search_medication.png)
+![medication search image](https://raw.github.com/stellacotton/TremorTracker/master/static/img/search_medication.png)
 
   
 
