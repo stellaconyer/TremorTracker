@@ -1,24 +1,12 @@
-// Modified from bost.ocks.org/mike/path/
-
-//Create separate data arrays for x,y,z
 data = [];
  
 var margin = {top: 20, right: 20, bottom: 20, left: 40},
-    width = 1000 - margin.left - margin.right,
+    width = 800 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
-
-
-
-
-var now = new Date();
-
-var x = d3.time.scale().range([0, width])
-    .domain([new Date(+(now)-(10*1000)), new Date(+(now))]);
-    // add ranges
-
-var xAxis = d3.svg.axis().scale(x)
-    // add ticks (axis and vertical line)
-    .tickPadding(6).ticks(5).orient("bottom");
+ 
+var x = d3.scale.linear()
+    .domain([1, 50])
+    .range([0, width]);
  
 var y = d3.scale.linear()
     .domain([-15, 15])
@@ -63,35 +51,49 @@ var path = svg.append("g")
   //draw y,z path
  
 
-function tick(x_coord) {
- 
-//call these for each x,y,z
 
-  // push a new data point onto the back
-  for (var i = 0; i < x_coord.length; i++) {
-    data.push(x_coord[i]);
-    console.log("tick");
-    console.log(data);
-   
+function tick() {
+    console.log("tick?");
     // redraw the line, and slide it to the left
     path
         .attr("d", line)
         .attr("transform", null)
       .transition()
-        // .duration(5)
+        .duration(500)
         .ease("linear")
         .attr("transform", "translate(" + x(0) + ",0)");
         // .each("end", tick);
 
-      
-    svg.select("g.x.axis").call(xAxis)
-      .transition()
-        // .duration(5)
-        .ease("linear")
-        .attr("transform", "translate(" + x(0) + ",0)");
+
     // pop the old data point off the front
 
-      if (data.length > 60) {
-          data.shift();}
+    if (data.length > 60) {
+          data.shift();
       }
-  }
+    }
+
+
+// Websocket calls push() every second when in recording mode, returns 20 samples every second
+//push() adds each point to the master dataset
+function push(x_coord) {
+
+    for (var i = 0; i < x_coord.length; i++) {
+    data.push(x_coord[i]);
+    console.log("push");
+    console.log(data);
+    }
+
+    clearTimeout(window.countdown);
+
+    window.countdown = setTimeout(function () {
+      clearInterval(window.timer);
+    },2000);
+    
+    clearInterval(window.timer);
+
+    window.timer = setInterval(tick,50);
+    
+
+}
+
+    

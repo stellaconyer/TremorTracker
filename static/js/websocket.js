@@ -5,9 +5,7 @@ inbox.onmessage = function(message) {
   // console.log("YOU THERE???");
   var data = JSON.parse(message.data);
   // console.log(data);
-  tick(data)
-
-  ;
+  push(data);
 };
 
 inbox.onclose = function(){
