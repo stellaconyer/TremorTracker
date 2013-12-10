@@ -1,9 +1,8 @@
 ### Launch server using gunicorn gunicorn, bind to all addresses
 ### gunicorn -k flask_sockets.worker --bind 0.0.0.0:8000 app:app
 
-
 from flask import Flask, render_template, redirect, request, g, session, url_for, flash, jsonify
-import config
+# import config
 import json
 import requests
 from flask_sockets import Sockets
@@ -11,18 +10,25 @@ import fft as fft
 import os
 import redis
 import gevent
+import urlparse
 
 app = Flask(__name__)
-app.config.from_object(config)
-app.debug = 'DEBUG' in os.environ
+# app.config.from_object(config)
+# app.debug = 'DEBUG' in os.environ
 
-# REDIS_URL = os.environ['REDISCLOUD_URL']
+REDIS_URL = os.environ['REDISTOGO_URL']
 REDIS_CHAN = 'chart'
 
 sockets = Sockets(app)
-redis_ps_server = redis.StrictRedis(host="localhost", port=6379, db=0)
-heatmap_server = redis.StrictRedis(host="localhost", port=6379, db=1)
+# redis_ps_server = redis.StrictRedis(host="localhost", port=6379, db=0)
+# heatmap_server = redis.StrictRedis(host="localhost", port=6379, db=1)
 
+
+url_to_go = urlparse.urlparse(os.environ.get('REDISTOGO_URL'))
+heatmap_server = redis.Redis(host=url_to_go.hostname, port=url_to_go.port, password=url_to_go.password)
+
+url_cloud = urlparse.urlparse(os.environ.get('REDISCLOUD_URL'))
+redis_ps_server = redis.Redis(host=url_cloud.hostname, port=url_cloud.port, password=url_cloud.password)
 
 # Interface for registering and updating WebSocket clients. Modified from Heroku's sample chat server.
 class LiveChartBackend(object):

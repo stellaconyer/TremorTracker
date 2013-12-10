@@ -4,7 +4,7 @@ TremorTracker is a web-based app that uses a smartphone accelerometer to record 
 
 
 ##Accelerometer data & machine learning
-Tremor Tracker was inspired by my machine learning work with a 10GB dataset of passively collected smartphone data provided by the Michael J. Fox Foundation. Data was collected from 9 PD patients, at varying stages of the disease, and 7 healthy controls, resulting in over 6,000 hours of collected data (comprised of 18,000 hours of individual data-streams). I chose to focus on the accelerometer data to create a machine learning classifier to separate parkinsons from non-Parkinson's patients. 
+Tremor Tracker was inspired by my machine learning work with a 10GB dataset of passively collected smartphone data provided by the Michael J. Fox Foundation. Data was collected from 9 PD patients, at varying stages of the disease, and 7 healthy controls, resulting in over 6,000 hours of collected data (comprised of 18,000 hours of individual data-streams). I chose to focus on the accelerometer data to create a machine learning classifier to separate Parkinson's from non-Parkinson's patients. 
 
 I initially followed the methodology of another researcher by averaging the Power Spectral Density (PSD) of the signal over an hour and using a Support Vector Machine classifier to separate the data. Unfortunately the methodology outlined in the paper did not correspond to the researcher's code and the results were not accurate or reproducible.
 
